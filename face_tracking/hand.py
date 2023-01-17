@@ -69,12 +69,12 @@ with mp_hands.Hands(
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     if results.multi_hand_landmarks:
       for hand_landmarks in results.multi_hand_landmarks:
-        # mp_drawing.draw_landmarks(
-        #     image,
-        #     hand_landmarks,
-        #     mp_hands.HAND_CONNECTIONS,
-        #     mp_drawing_styles.get_default_hand_landmarks_style(),
-        #     mp_drawing_styles.get_default_hand_connections_style())
+        mp_drawing.draw_landmarks(
+            image,
+            hand_landmarks,
+            mp_hands.HAND_CONNECTIONS,
+            mp_drawing_styles.get_default_hand_landmarks_style(),
+            mp_drawing_styles.get_default_hand_connections_style())
         #print(results.multi_hand_landmarks)
         keypoints = results.multi_hand_landmarks
         loc_ = keypoints[0]
@@ -82,8 +82,10 @@ with mp_hands.Hands(
         loc_1 = loc_.landmark
         loc_1_1 = loc_1[8]
         loc_1_re = loc_1_1.z
-        loc_1_1 = int(loc_1_1.x*w), int(loc_1_1.y*h)
-        #print(loc_1_re)
+        print("손목", loc_1[0].z)
+        loc_w = int(loc_1[0].x*w), int(loc_1[0].y*h)
+        print(loc_1_re)
+        cv2.circle(image, loc_w, 25 ,(0, 255, 0), 2, cv2.LINE_AA)
         if loc_1_re < -0.2:
           cv2.circle(image, loc_1_1, 25 ,(255, 0, 0), 2, cv2.LINE_AA)
         else:
