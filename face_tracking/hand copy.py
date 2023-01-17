@@ -81,15 +81,15 @@ with mp_hands.Hands(
         loc_ = keypoints[0]
         h, w, _ = image.shape
         loc_1 = loc_.landmark
-        loc_1_1 = loc_1[8]
-        loc_1_re = loc_1_1.z
+        loc_1_1 = loc_1[8] #검지손가락 끝(두개 이상의 손가락이 발견될 때 카매라 화면에서 제일 왼쪽의 손의 손가락으로 인식한다.)
+        loc_1_re = loc_1_1.z #z의 기준은 전체적인 손위치 평균에서 앞으로 갈수록 -, 멀어질수록 +의 값을 갖게된다.
         loc_1_1_ = int(loc_1_1.x*w), int(loc_1_1.y*h)
         #print(loc_1_re)
         if loc_1_re < -0.2:
-          cv2.circle(image, loc_1_1_, 25 ,(255, 0, 0), 2, cv2.LINE_AA)
-          #pyautogui.moveTo((loc_1_1.x*1920-1920)*-1,loc_1_1.y*1080)
-        else:
-          cv2.circle(image, loc_1_1, 25 ,(255, 255, 0), 2, cv2.LINE_AA)
+          #cv2.circle(image, loc_1_1_, 25 ,(255, 0, 0), 2, cv2.LINE_AA)
+          pyautogui.moveTo((loc_1_1.x*1920-1920)*-1,loc_1_1.y*1080)
+        #else:
+          #cv2.circle(image, loc_1_1, 25 ,(255, 255, 0), 2, cv2.LINE_AA)
 
     # Flip the image horizontally for a selfie-view display.
     cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
